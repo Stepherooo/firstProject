@@ -1,0 +1,62 @@
+	Requirements Part I
+1) Filter the data retrieved using at least three fields (e.g., by category or director) 
+2) Sort the results using at least one field (asc,desc) 
+3) Click on a result item to get further information
+4) Include two aggregate functions (SUM, AVG, MAX, GROUP BY, etc)
+5) Use at least two tables
+6) Use PHP to insert, update, or delete records.
+7) Include CSS.
+
+	Requirements Part II
+a) Allow users to update their password (once they logged in)
+b) Keep track of the date and time a user has logged in (create a “log” table).
+c) Get together with your team members to discuss and do peer coding. After testing the code, apply it on individual account to make sure everyone on the team knows how to make the project work on their own. 
+d) Link individual customized team project URL to your course webpage. Your project will be graded on individual base at the end. 
+e) Post your team's project URL in this week's demo forum. Each team only needs to provide one URL. Therefore, your team needs to decide whose customized project can be more representative of your team's work.
+
+
+
+Create the sql SELECT functions to retrieve movie data by director, genre, and year.
+	- user requests to see movies made by certain director
+	- go into movieDirector table and grab director's id
+	- match director's id to movie in the movies table
+	- display movies associated with selected director's id
+	- rinse and repeat for genre and year
+
+Display SORTED data by recursive iteration because classes that implement RecursiveIterator can be used to iterate over iterators recursively!!!! (or use for loops to display it; whatever)
+	- make it so that users can click on movie name to get all information for that given title (director, genre, year, rating, running length, etc.)
+	- display average running time for the movies displayed
+		-> put the filtered information into a (temporary) database
+		-> SELECT AVG(length) AS lengthAverage FROM temp_movie_length; 
+		-> delete contents of temp_movie_length after avg length of movie is calculated and displayed
+	- display the most recent movies made by using the max() function
+		-> SELECT MAX(column_name) FROM movie_year;
+		-> use that to get the ID of the movie year that's most recent
+		-> use that movie_year id to match it with a movie (or movies) from the movies table
+		-> display movie(s)
+
+Adding INSERT, UPDATE, DELETE functionality
+	- make a separate page for inserting movies into a database
+		-> $stmt = $conn->prepare("SELECT id, movieTitle, otherStuff FROM userMovies");
+			userMovies will be an entirely user-controlled database so we won't have user submissions mucking up our tables
+		-> this allows the connection to the database to be on standby
+		-> make a form for users to submit movie title, director, year, etc.
+		-> convert $_POST['formname'] entries into $variables to submit to database
+	- separate page for updating
+		-> allow users to update their own submitted data
+		-> allow ADMINS to update our data by submitting changes
+	- separate page for deleting
+	
+Login Functionality
+	- allow users to make a "movies addict!!" account
+		-> allow them the ability to "favourite" movies
+		-> allow them to change password
+		-> create 2 databases: 
+			i. accounts (database with users' unique IDs, usernames and passwords and last login time)
+			ii. favourites (database with users' IDs and the ID(s) of their favourited movies)
+		
+		
+Therefore, user-generated bases include userMovies, userAccounts, userFavourites.
+There are two types of users: admins and regular users. We can do something similar to boolean variables to differentiate the two by adding a column in the userAccounts table labeled accountType [a value of 1 = admin, 0 = regular]. This is so that only Admins can update movie data on our base spreadsheets that Chris made. If the user has a regular account, their contributions are added to userMovies as to not mess with our data.
+
+Add CSS and all that pretty stuff!!
